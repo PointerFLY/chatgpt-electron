@@ -7,6 +7,7 @@ const HOME_URL = 'https://chat.openai.com/chat'
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
+    title: 'ChatGPT',
     width: 800,
     height: 600,
     webPreferences: {
