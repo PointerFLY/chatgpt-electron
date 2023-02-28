@@ -16,6 +16,44 @@ function createWindow() {
   // mainWindow.loadFile('index.html')
 
   mainWindow.loadURL('https://chat.openai.com/chat')
+  buildMenu(mainWindow)
+}
+
+function buildMenu(mainWindow) {
+  const menu = Menu.getApplicationMenu()
+
+  const moreMenu = Menu.buildFromTemplate([{
+    label: 'Navigate',
+    submenu: [
+      {
+        label: 'Home',
+        accelerator: 'Shift+CmdOrCtrl+H',
+        click: () => {
+          mainWindow.webContents.loadURL(HOME_URL)
+        }
+      },
+      {
+        label: 'Forward',
+        accelerator: 'CmdOrCtrl+]',
+        click: () => {
+          mainWindow.webContents.goForward()
+        }
+      },
+      {
+        label: 'Back',
+        accelerator: 'CmdOrCtrl+[',
+        click: () => {
+          mainWindow.webContents.goBack()
+        }
+      }
+    ]
+  }]);
+
+  moreMenu.items.forEach(item => {
+    menu.append(item)
+  })
+
+  Menu.setApplicationMenu(menu)
 }
 
 // This method will be called when Electron has finished
