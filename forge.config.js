@@ -1,5 +1,8 @@
 module.exports = {
-  packagerConfig: {},
+  packagerConfig: {
+    icon: './images/icon',
+    name: 'ChatGPT',
+  },
   rebuildConfig: {},
   makers: [
     {
