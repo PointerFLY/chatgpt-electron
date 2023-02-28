@@ -1,6 +1,8 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Menu, MenuItem } = require('electron')
+const { app, BrowserWindow, Menu } = require('electron')
 const path = require('path')
+
+const HOME_URL = 'https://chat.openai.com/chat'
 
 function createWindow() {
   // Create the browser window.
@@ -13,10 +15,27 @@ function createWindow() {
   })
 
   // and load the index.html of the app.
-  // mainWindow.loadFile('index.html')
-
-  mainWindow.loadURL('https://chat.openai.com/chat')
+  mainWindow.loadURL(HOME_URL)
   buildMenu(mainWindow)
+  perseveMainWindow(mainWindow)
+}
+
+function perseveMainWindow(mainWindow) {
+  var isAppQuitting = false;
+  app.on('before-quit', function (evt) {
+    isAppQuitting = true;
+  });
+
+  mainWindow.on('close', (event) => {
+    if (!isAppQuitting) {
+      event.preventDefault()
+      mainWindow.hide()
+    }
+  })
+
+  app.on('activate', () => {
+    mainWindow.show()
+  })
 }
 
 function buildMenu(mainWindow) {
@@ -59,7 +78,6 @@ function buildMenu(mainWindow) {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-
 app.whenReady().then(() => {
   createWindow()
 
